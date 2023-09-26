@@ -1,0 +1,9 @@
+#header {
+    font-size: 20px;
+}
+
+.card {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    display: flex;
+}
