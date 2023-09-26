@@ -210,10 +210,30 @@ def getElPasoCountyAssessorValue(row):
         driverAssessor.get('https://property.spatialest.com/co/elpaso/#/property/' + json_object["id"])
         WebDriverWait(driverAssessor, timeout=8).until(EC.presence_of_element_located((By.ID, 'prccontent')))
         totalValue = driverAssessor.find_element("xpath", '//*[@id="prccontent"]/div/section/div/div[1]/div[2]/header/div/div/div[2]/div/div[2]/span').text
+        isBuildingInfoPresent = len(driverAssessor.find_elements(By.ID,'BuildingSection_residential_0')) > 0
+        if isBuildingInfoPresent:
+            styleDesc = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[3]/p[1]/span[2]').text
+            propertyDesc = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[4]/p[1]/span[2]').text
+            yearBuilt = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[5]/p[1]/span[2]').text
+            dwellingUnits = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[6]/p[1]/span[2]').text
+            numOfRooms = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[7]/p[1]/span[2]').text
+            numOfBedrooms = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[8]/p[1]/span[2]').text
+            numOfBaths = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[9]/p[1]/span[2]').text
+            garageDesc = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[7]/p[2]/span[2]').text
+            garageArea = driverAssessor.find_element("xpath", '//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[7]/p[2]/span[2]').text
+        else:
+            styleDesc = 'N/A'
+            propertyDesc = 'N/A'
+            yearBuilt = 'N/A'
+            dwellingUnits = 'N/A'
+            numOfRooms = 'N/A'
+            numOfBedrooms = 'N/A'
+            numOfBaths = 'N/A'
+            garageDesc = 'N/A'
+            garageArea = 'N/A'
         isSinglePhotoPresent = len(driverAssessor.find_elements(By.ID,'prccontent')) > 0
         areMultiplePhotosPresent = len(driverAssessor.find_elements(By.ID,'slick-slide00')) > 0
         photoPath = None
-        
         if isSinglePhotoPresent:
             photoPath = '//*[@id="prccontent"]/div/section/div/div[2]/div/div/div[1]/div/div/div/div/img'
         elif areMultiplePhotosPresent:
@@ -221,7 +241,7 @@ def getElPasoCountyAssessorValue(row):
         src = driverAssessor.find_element("xpath", photoPath).get_attribute('src')
         
         urllib.request.urlretrieve(str(src),"../photos/fcNumber{}.jpg".format(row[0]))
-        return [totalValue,"../photos/fcNumber{}.jpg".format(row[0])]
+        return [totalValue,"../photos/fcNumber{}.jpg".format(row[0]),styleDesc,propertyDesc,yearBuilt,dwellingUnits,numOfRooms,numOfBedrooms,numOfBaths,garageDesc,garageArea]
         
     except KeyError:
         print("id does not exist for: " + address)
@@ -253,7 +273,7 @@ def getPropertyValues():
                 rowToWrite = ""
                 for column in row:
                     rowToWrite += '"' + column + '",'
-                rowToWrite += '"' + assessorResults[0] + '",' + '"' + assessorResults[1] + '"\n'
+                rowToWrite += '"' + assessorResults[0] + '","' + assessorResults[1] + '","' + assessorResults[2] + '","' + assessorResults[3] + '","' + assessorResults[4] + '","' + assessorResults[5] + '","' + assessorResults[6] + '","' + assessorResults[7] + '","' + assessorResults[8] + '","' + assessorResults[9] + '","' + assessorResults[10] + '"\n'
                 propertyValuesFile.write(rowToWrite)
         
         propertyValuesFile.close()
@@ -275,10 +295,19 @@ def createDataJson():
                     "STATUS":row[6],
                     "ASSESSORVALUE":row[7],
                     "PHOTOPATH":row[8],
-                    "SALEDATE":row[9],
-                    "LENDERSINITIALBID":row[10],
-                    "DEFICIENCYAMOUNT":row[11],
-                    "TOTALINDEBTEDNESS":row[12]
+                    "STYLEDESC":row[9],
+                    "PROPDESC":row[10],
+                    "YEARBUILT":row[11],
+                    "DWELLINGUNITS":row[12],
+                    "TOTALROOMS":row[13],
+                    "BEDS":row[14],
+                    "BATHS":row[15],
+                    "GARAGEDESC":row[16],
+                    "GARAGEAREA":row[17],
+                    "SALEDATE":row[18],
+                    "LENDERSINITIALBID":row[19],
+                    "DEFICIENCYAMOUNT":row[20],
+                    "TOTALINDEBTEDNESS":row[21]
                 }
                 dataJsonFile.write(json.dumps(rowObj)+',')
         dataJsonFile.write(']')
@@ -298,14 +327,14 @@ if userInput == '1':
 
 elif userInput == '2':
     propertyValuesFile = open(propertyValuesFileName, "w")
-    propertyValuesFile .write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status","Assessor Market Value","Photo Path"\n')
+    propertyValuesFile .write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status","Assessor Market Value","Photo Path","Style Description","Property Description","Year Built","Dwelling Units","Rooms","Beds","Baths","Garage Description","Garage Area"\n')
     propertyValuesFile.close()
     getPropertyValues()
     print('All property data has been gathered!\n')
     
 elif userInput == '3':
     propertyDetailsFile = open(propertyDetailsFileName, "w")
-    propertyDetailsFile.write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status","Assessor Market Value","Photo Path","Currently Scheduled Sale Date","Lenders Initial Bid","Deficiency Amount","Total Indebtedness"\n')
+    propertyDetailsFile.write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status","Assessor Market Value","Photo Path","Style Description","Property Description","Year Built","Dwelling Units","Rooms","Beds","Baths","Garage Description","Garage Area","Currently Scheduled Sale Date","Lenders Initial Bid","Deficiency Amount","Total Indebtedness"\n')
     propertyDetailsFile.close()
     cycleThroughForeclosureNumbersForPropertyDetails(foreclosureListFileName)
     print('All property details data has been gathered!\n')
@@ -318,3 +347,9 @@ elif userInput == '3':
 
 # let this create a csv and json file and then I can create a beta site in github to put the info in for Porter
 
+#//*[@id="default_buildings"]/div/div/div/div/div[1]/h4
+#//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[3]/p[1]/span[2]
+#
+#//*[@id="default_buildings"]/div/div/div/div/div[1]/h4
+#//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[3]/p[1]/span[2]
+#//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[4]/p[1]/span[2]
