@@ -12,6 +12,15 @@ data.forEach(function(object) {
                 '<tr><td class="thirtyPercentWidth">Balance Due</td><td>' + object.BALANCEDUE + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Status</td><td>' + object.STATUS + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Assessor Market Value</td><td>' + object.ASSESSORVALUE + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Style Description</td><td>' + object.STYLEDESC + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Property Description</td><td>' + object.PROPDESC + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Year Built</td><td>' + object.YEARBUILT + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Dwelling Units</td><td>' + object.DWELLINGUNITS + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Total Rooms</td><td>' + object.TOTALROOMS + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Beds</td><td>' + object.BEDS + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Baths</td><td>' + object.BATHS + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Garage Description</td><td>' + object.GARAGEDESC + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Garage Area</td><td>' + object.GARAGEAREA + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Currently Scheduled Sale Date</td><td>' + object.SALEDATE + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Lenders Initial Bid</td><td>' + object.LENDERSINITIALBID + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Deficiency Amount</td><td>' + object.DEFICIENCYAMOUNT + '</td></tr>' +
