@@ -24,7 +24,8 @@ data.forEach(function(object) {
                 '<tr><td class="thirtyPercentWidth">Currently Scheduled Sale Date</td><td>' + object.SALEDATE + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Lenders Initial Bid</td><td>' + object.LENDERSINITIALBID + '</td></tr>' +
                 '<tr><td class="thirtyPercentWidth">Deficiency Amount</td><td>' + object.DEFICIENCYAMOUNT + '</td></tr>' +
-                '<tr><td class="thirtyPercentWidth">Total Indebtedness</td><td>' + object.TOTALINDEBTEDNESS + '</td></tr>';
+                '<tr><td class="thirtyPercentWidth">Total Indebtedness</td><td>' + object.TOTALINDEBTEDNESS + '</td></tr>' +
+                '<tr><td class="thirtyPercentWidth">Links</td><td><a href=https://www.zillow.com/homes/'+object.STREET.replaceAll(' ','-')+'_rb target="_blank">Zillow</a></td></tr>';
     cardDiv.appendChild(table);
     var img = document.createElement('img');
     img.setAttribute('src', object.PHOTOPATH);
