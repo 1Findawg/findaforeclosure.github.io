@@ -51,7 +51,7 @@ def getGridRows(zipcode, zipcodeIndex):
     select.select_by_visible_text('NED Recorded')
     
     tomorrow = date.today() + timedelta(days=1)
-    nextWeek = tomorrow + timedelta(days=7)
+    nextWeek = tomorrow + timedelta(days=6)
     
     driverPublicTrustee.find_element("xpath", '//*[@id="ctl00_ContentPlaceHolder1_txtCurrentScheduledSaleDateFrom"]').send_keys(tomorrow.strftime("%m/%d/%y"))
     
@@ -137,33 +137,6 @@ def readPropertyDetailsPublicTrustee(foreclosureNumber):
     
     driverPublicTrustee.quit()
     return [currentlyScheduledSaleDate, holdersInitialBid, deficiencyAmount, totalIndebtedness]
-    
-            
-#def getZillowValue(address, fcNumber):
-#    https://www.zillow.com/howto/api/APIOverview.htm
-#   https://api.bridgedataoutput.com/api/v2/zestimates_v2/zestimates?access_token=access_token&address="123 Main Street"
-#    driverZillow = webdriver.Chrome()
-#    input('Press Enter')
-#    driverZillow.get('https://www.zillow.com/homes/' + address.replace(" ","-") + '_rb')
-#    time.sleep(5)
-#    src = driverZillow.find_element("xpath", '//*[@id="__next"]/div/div/div[1]/div[2]/div[1]/div/div[1]/div/ul/li[1]/button/picture/img').get_attribute('src')
-#    urllib.request.urlretrieve(str(src),"../photos/fcNumber{}.jpg".format(fcNumber))
-#    input('WAITING FOR DEVELOPER')
-#    sold = 0.00
-#    price = 0.00
-#    zestimate = 0.00
-#    assessed = 0.00
-#    driverZillow.quit()
-
-#def getZillowValue(address):
-#   Need to get the access token for my account, register account
-#   https://api.bridgedataoutput.com/api/v2/zestimates_v2/zestimates?access_token=access_token&address="123 Main Street"
-#    zillowAccessToken
-#    searchUrl = 'https://api.bridgedataoutput.com/api/v2/zestimates_v2/zestimates?access_token=6baca547742c6f96a6ff71b138424f21&address="' + address + '"'
-#    myobj = {}
-#    x = requests.post(searchUrl, data = myobj)
-#    print(x.text)
-#    json_object = json.loads(x.text)
 
 def getRealtorComValue(row):
     driverRealtor = webdriver.Chrome()
@@ -234,7 +207,7 @@ def getElPasoCountyAssessorValue(row):
         isSinglePhotoPresent = len(driverAssessor.find_elements(By.ID,'prccontent')) > 0
         areMultiplePhotosPresent = len(driverAssessor.find_elements(By.ID,'slick-slide00')) > 0
         photoPath = None
-        if isSinglePhotoPresent:
+        if isSinglePhotoPresent and not areMultiplePhotosPresent:
             photoPath = '//*[@id="prccontent"]/div/section/div/div[2]/div/div/div[1]/div/div/div/div/img'
         elif areMultiplePhotosPresent:
             photoPath = '//*[@id="slick-slide00"]/div/div/img'
@@ -341,15 +314,3 @@ elif userInput == '3':
     createDataJson()
     print('Json data.json Created\n')
     
-#elif userInput == 'test':
-#    getZillowValue(input('Enter Address: '), 123)
-    
-
-# let this create a csv and json file and then I can create a beta site in github to put the info in for Porter
-
-#//*[@id="default_buildings"]/div/div/div/div/div[1]/h4
-#//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[3]/p[1]/span[2]
-#
-#//*[@id="default_buildings"]/div/div/div/div/div[1]/h4
-#//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[3]/p[1]/span[2]
-#//*[@id="BuildingSection_residential_0"]/div/div/div/div/ul/li[4]/p[1]/span[2]
