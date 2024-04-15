@@ -285,27 +285,24 @@ def createDataJson():
                 dataJsonFile.write(json.dumps(rowObj)+',')
         dataJsonFile.write(']')
         dataJsonFile.close()
-    
-            
-# for O and E order https://www.etcos.com/o-and-e-order-form or https://www.etcos.com/empower-property-search-and-o-and-e-orders ask David
-
-userInput = input('Type 1 to search all foreclosures on the public trustee website.\nType 2 to search for property values.\nType 3 for property details.\nThen press ENTER.\n')
-if userInput == '1':
+        
+        
+def completeStepOne():
     foreclosureListFile = open(foreclosureListFileName, "a")
     foreclosureListFile.write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status"\n')
     foreclosureListFile.close()
     readInWhiteListZipCodes('whiteListZipCodes.csv')
     cycleThroughZipcodes()
     print('All records have been gathered!\n')
-
-elif userInput == '2':
+    
+def completeStepTwo():
     propertyValuesFile = open(propertyValuesFileName, "w")
     propertyValuesFile .write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status","Assessor Market Value","Photo Path","Style Description","Property Description","Year Built","Dwelling Units","Rooms","Beds","Baths","Garage Description","Garage Area"\n')
     propertyValuesFile.close()
     getPropertyValues()
     print('All property data has been gathered!\n')
     
-elif userInput == '3':
+def completeStepThree():
     propertyDetailsFile = open(propertyDetailsFileName, "w")
     propertyDetailsFile.write('"FC #","Grantor","Street","Zip","Subdivision","Balance Due","Status","Assessor Market Value","Photo Path","Style Description","Property Description","Year Built","Dwelling Units","Rooms","Beds","Baths","Garage Description","Garage Area","Currently Scheduled Sale Date","Lenders Initial Bid","Deficiency Amount","Total Indebtedness"\n')
     propertyDetailsFile.close()
@@ -313,4 +310,22 @@ elif userInput == '3':
     print('All property details data has been gathered!\n')
     createDataJson()
     print('Json data.json Created\n')
+            
+# for O and E order https://www.etcos.com/o-and-e-order-form or https://www.etcos.com/empower-property-search-and-o-and-e-orders ask David
+
+if len(sys.argv) > 1 and sys.argv[1] == '4':
+    completeStepOne()
+    completeStepTwo()
+    completeStepThree()
+
+else:
+    userInput = input('Type 1 to search all foreclosures on the public trustee website.\nType 2 to search for property values.\nType 3 for property details.\nThen press ENTER.\n')
+    if userInput == '1':
+        completeStepOne()
+
+    elif userInput == '2':
+        completeStepTwo()
+        
+    elif userInput == '3':
+        completeStepThree()
     
