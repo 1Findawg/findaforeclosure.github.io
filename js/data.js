@@ -1,1 +1,1 @@
-const data = [{"FC": "EPC202300642", "GRANTOR": "Eddie Bishop", "STREET": "North 19th Street", "ZIP": "80904", "SUBDIVISION": " ", "BALANCEDUE": "$288,476.57", "STATUS": "NED Recorded", "ASSESSORVALUE": "C", "PHOTOPATH": "o", "STYLEDESC": "u", "PROPDESC": "l", "YEARBUILT": "d", "DWELLINGUNITS": " ", "TOTALROOMS": "N", "BEDS": "o", "BATHS": "t", "GARAGEDESC": " ", "GARAGEAREA": "F", "SALEDATE": "4/17/2024", "LENDERSINITIALBID": "N/A", "DEFICIENCYAMOUNT": "N/A", "TOTALINDEBTEDNESS": "N/A"},]
+const data = []

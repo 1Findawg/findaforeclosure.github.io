@@ -10,4 +10,5 @@ git add js/data.js
 git add photos/*.jpg
 git add python/*.csv
 git commit -m "$(date +%F)-update"
-#git push
+git push --set-upstream origin weekly-update-$(date +%F)
+git checkout main
